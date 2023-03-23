@@ -1,17 +1,4 @@
-interface Listing {
-  id: string;
-  title: string;
-  image: string;
-  address: string;
-  price: Number;
-  numOfGuests: Number;
-  numOfBeds: Number;
-  numOfBaths: Number;
-  rating: Number;
-}
-
-// Array<Listing> or Listing[]
-export const listings: Listing[] = [
+export const listings = [
   {
     id: "001",
     title: "Clean and fully furnished apartment. 5 min away from CN Tower",
