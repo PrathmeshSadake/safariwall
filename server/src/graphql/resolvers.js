@@ -1,19 +1,20 @@
-import { listings } from "../listings.js";
+import { ObjectId } from "mongodb";
 
-// Resolvers define how to fetch the types defined in your schema.
-// This resolver retrieves books from the "books" array above.
 export const resolvers = {
   Query: {
-    listings: () => listings,
+    listings: async (_root, _args, { db }) => {
+      return await db.listings.find({}).toArray();
+    },
   },
   Mutation: {
-    deleteListing: (_root, { id }) => {
-      for (let i = 0; i < listings.length; i++) {
-        if (listings[i].id === id) {
-          return listings.splice(i, 1)[0];
-        }
+    deleteListing: async (_root, { id }, { db }) => {
+      const deleteResponse = await db.listings.findOneAndDelete({
+        _id: new ObjectId(id),
+      });
+      if (!deleteResponse.value) {
+        throw new Error("Deletion wasn't successful.");
       }
-      throw new Error("failed to delete listing");
+      return deleteResponse.value;
     },
   },
 };
