@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
 
-function App() {
+const App = () => {
+  const [listings, setListings] = useState([]);
+  const fetchListings = async () => {
+    const response = await fetch("http://localhost:5001/listings");
+    const data = await response.json();
+    setListings(data);
+  };
+  useEffect(() => {
+    fetchListings();
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {listings.length > 0 ? (
+        <ul>
+          {listings.map((listing) => (
+            <li key={listing._id}>{listing.title}</li>
+          ))}
+        </ul>
+      ) : (
+        <div>Loading...</div>
+      )}
     </div>
   );
-}
+};
 
 export default App;

@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
-import { ObjectId } from "mongodb";
-import { connectDatabase } from "../src/database/index.js";
+import Listing from "../models/Listing.js";
 dotenv.config();
 
 export const listings = [
@@ -42,8 +41,7 @@ export const listings = [
 const seed = async () => {
   try {
     console.log("seed running...");
-    const db = connectDatabase();
-    await db.listings.insertMany(listings);
+    await Listing.insertMany(listings);
     console.log("seed completed.");
   } catch (error) {
     console.log("Error seeding the database" + error);
