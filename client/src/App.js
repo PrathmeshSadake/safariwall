@@ -1,26 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import { Home, Host, Listing, Listings, NotFound, User } from "./pages";
 
 const App = () => {
-  const [listings, setListings] = useState([]);
-  const fetchListings = async () => {
-    const response = await fetch("http://localhost:5001/listings");
-    const data = await response.json();
-    setListings(data);
-  };
-  useEffect(() => {
-    fetchListings();
-  }, []);
   return (
     <div>
-      {listings.length > 0 ? (
-        <ul>
-          {listings.map((listing) => (
-            <li key={listing._id}>{listing.title}</li>
-          ))}
-        </ul>
-      ) : (
-        <div>Loading...</div>
-      )}
+      <Routes>
+        <Route exact path='/' element={<Home />} />
+        <Route exact path='/host' element={<Host />} />
+        <Route exact path='/listing/:id' element={<Listing />} />
+        <Route exact path='/listings/:location?' element={<Listings />} />
+        <Route exact path='/user/:id' element={<User />} />
+        {/* <Route path='/login' element={<Login />} /> */}
+        {/* <Route path='/stripe' element={<Home />} /> */}
+        <Route path='*' element={<NotFound />} />
+      </Routes>
     </div>
   );
 };
