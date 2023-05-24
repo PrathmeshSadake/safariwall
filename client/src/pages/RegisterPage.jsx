@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
-export default function LoginPage() {
+const RegisterPage = () => {
   return (
     <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-24 lg:px-8'>
       <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
@@ -20,7 +20,7 @@ export default function LoginPage() {
           />
         </svg>
         <h2 className='mt-4 text-center text-2xl font-semibold leading-9 tracking-tight text-gray-900'>
-          Sign in to your account
+          Create your account
         </h2>
       </div>
 
@@ -53,11 +53,11 @@ export default function LoginPage() {
               >
                 Password
               </label>
-              <div className='text-sm'>
+              {/* <div className='text-sm'>
                 <a href='#' className='font-semibold text-primary'>
                   Forgot password?
                 </a>
-              </div>
+              </div> */}
             </div>
             <div className='mt-2'>
               <input
@@ -76,18 +76,18 @@ export default function LoginPage() {
               type='submit'
               className='flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
             >
-              Sign in
+              Create my account
             </button>
           </div>
         </form>
 
         <p className='mt-6 text-center text-sm text-gray-500'>
-          Don&apos;t have an account?{" "}
+          Already have an account?{" "}
           <Link
-            to='/register'
+            to='/login'
             className='font-semibold leading-6 text-primary hover:text-primary'
           >
-            Register
+            Login
           </Link>
         </p>
         <p className='mt-3 flex items-center justify-center space-x-2 text-sm text-primary hover:text-primary'>
@@ -99,4 +99,6 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default RegisterPage;
