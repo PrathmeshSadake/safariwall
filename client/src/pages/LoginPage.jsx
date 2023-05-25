@@ -1,7 +1,32 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { Link, Navigate } from "react-router-dom";
 
 export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
+
+  const loginUser = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("/auth/login", {
+        email,
+        password,
+      });
+      toast.success("Login successfull.");
+      setEmail("");
+      setPassword("");
+      setRedirect(true);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+  if (redirect) return <Navigate to='/' replace={true} />;
+
   return (
     <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-24 lg:px-8'>
       <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
@@ -25,7 +50,7 @@ export default function LoginPage() {
       </div>
 
       <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-        <form className='space-y-6' action='#' method='POST'>
+        <form className='space-y-6' onSubmit={loginUser}>
           <div>
             <label
               htmlFor='email'
@@ -40,7 +65,9 @@ export default function LoginPage() {
                 type='email'
                 autoComplete='email'
                 required
-                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 px-1'
               />
             </div>
           </div>
@@ -66,7 +93,9 @@ export default function LoginPage() {
                 type='password'
                 autoComplete='current-password'
                 required
-                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 px-1'
               />
             </div>
           </div>
