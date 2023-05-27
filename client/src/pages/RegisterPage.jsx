@@ -1,19 +1,29 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { dispatch } = useContext(UserContext);
+
   const registerUser = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/auth/register", { name, email, password });
-      toast.success("Registration successfull. Now you can login.");
+      const { data } = await axios.post("/auth/register", {
+        name,
+        email,
+        password,
+      });
+      toast.success("Registration successful.");
+      localStorage.setItem("user", JSON.stringify(data));
+      dispatch({ type: "LOGIN", payload: data });
+
       setName("");
       setEmail("");
       setPassword("");

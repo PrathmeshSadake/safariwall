@@ -1,21 +1,27 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, Navigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const { user, dispatch } = useContext(UserContext);
+
+  console.log(user);
 
   const loginUser = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/auth/login", {
+      const { data } = await axios.post("/auth/login", {
         email,
         password,
       });
+      localStorage.setItem("user", JSON.stringify(data));
+      dispatch({ type: "LOGIN", payload: data });
       toast.success("Login successfull.");
       setEmail("");
       setPassword("");
