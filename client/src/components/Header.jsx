@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
@@ -6,6 +6,8 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { UserContext } from "../context/UserContext";
+import { useLogout } from "../hooks/useLogout";
 
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
@@ -18,8 +20,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
-  const user = false;
+export default function Navbar() {
+  const { user } = useContext(UserContext);
+  const { logout } = useLogout();
+
   return (
     <Disclosure as='nav' className='bg-white'>
       {({ open }) => (
@@ -84,10 +88,10 @@ export default function Example() {
                 ) : (
                   <Menu as='div' className='relative ml-3'>
                     <div>
-                      <Menu.Button className='flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>
+                      <Menu.Button className='flex rounded-full bg-gray-800 text-sm border-2 border-gray-800'>
                         <span className='sr-only'>Open user menu</span>
                         <img
-                          className='h-8 w-8 rounded-full'
+                          className='h-9 w-9 rounded-full'
                           src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                           alt=''
                         />
@@ -105,15 +109,15 @@ export default function Example() {
                       <Menu.Items className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                         <Menu.Item>
                           {({ active }) => (
-                            <a
-                              href='#'
+                            <Link
+                              to='/profile'
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
                               Your Profile
-                            </a>
+                            </Link>
                           )}
                         </Menu.Item>
                         <Menu.Item>
@@ -131,15 +135,15 @@ export default function Example() {
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <a
-                              href='#'
+                            <button
+                              onClick={logout}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
+                                "w-full text-left block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
                               Sign out
-                            </a>
+                            </button>
                           )}
                         </Menu.Item>
                       </Menu.Items>
