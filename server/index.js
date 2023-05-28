@@ -6,6 +6,8 @@ import { fileURLToPath } from "url";
 import mongoose from "mongoose";
 import path from "path";
 
+import authRoutes from "./routes/authRoutes.js";
+
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,16 +18,13 @@ const app = express();
 
 app.use(cors());
 app.use(cookieParser());
+app.use(express.json());
 app.use("/uploads", express.static(__dirname + "/uploads"));
-app.use(
-  cors({
-    credentials: true,
-    origin: "http://127.0.0.1:5173",
-  })
-);
 
-app.get("/api/test", (req, res) => {
-  res.json("test ok");
+app.use("/api/auth", authRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Welcome!");
 });
 
 const runApp = () =>
