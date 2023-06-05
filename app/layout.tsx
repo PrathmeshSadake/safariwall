@@ -1,3 +1,8 @@
+import ClientOnly from "./components/ClientOnly";
+import LoginModal from "./components/modals/LoginModal";
+import RegisterModal from "./components/modals/RegisterModal";
+import RentModal from "./components/modals/RentModal";
+import SearchModal from "./components/modals/SearchModal";
 import Navbar from "./components/navbar/Navbar";
 import "./globals.css";
 import { Poppins } from "next/font/google";
@@ -20,7 +25,13 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={poppins.className}>
-        <Navbar />
+        <ClientOnly>
+          <LoginModal />
+          <RegisterModal />
+          <RentModal />
+          <SearchModal />
+          <Navbar />
+        </ClientOnly>
         {children}
       </body>
     </html>
